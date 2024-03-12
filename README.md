@@ -46,5 +46,5 @@ Bootstrap: Front-end framework for responsive design
 Refer to requirements.txt for the complete list of dependencies.
 
 Credits
-This project is based on a machine learning model developed by [Your Name].
-The datasets used in this project are sourced from [source] and [source].
+This project is based on a machine learning model developed by Jashwnth Yadav, Anjali Patel & Shalini Pareek.
+The datasets used in this project are sourced from Kaggle.
