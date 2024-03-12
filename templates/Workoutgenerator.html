@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week-wise Workout Generator</title>
+    <style>
+        /* Your existing CSS styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Epilogue", sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+
+        .generator-container {
+            background-color: #A4CE95;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .options {
+            list-style: none;
+            padding: 0;
+        }
+
+        .option {
+            margin: 8px 0;
+        }
+
+        button {
+            padding: 10px;
+            width: 100%;
+            background-color: #555;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #workout-plan {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="generator-container">
+        <h1>Week-wise Workout Generator</h1>
+        <ul class="options" id="options">
+            <li class="option">
+                <label for="weight">Enter Weight (kg):</label>
+                <input type="number" id="weight" min="40" max="200" step="1" value="70">
+            </li>
+            <li class="option">
+                <label for="height">Enter Height (cm):</label>
+                <input type="number" id="height" min="140" max="220" step="1" value="170">
+            </li>
+            <li class="option">
+                <label for="gender">Select Gender:</label>
+                <select id="gender">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+            </li>
+        </ul>
+        <button onclick="generateWorkoutPlan()">Generate Workout Plan</button>
+        <div id="workout-plan"></div>
+    </div>
+
+    <script>
+        function generateWorkoutPlan() {
+            const weight = document.getElementById("weight").value;
+            const height = document.getElementById("height").value;
+            const gender = document.getElementById("gender").value;
+
+            const workoutPlan = getWorkoutPlan(weight, height, gender);
+            displayWorkoutPlan(workoutPlan);
+        }
+
+        function getRandomExercise(exerciseArray) {
+            const randomIndex = Math.floor(Math.random() * exerciseArray.length);
+            return exerciseArray[randomIndex];
+        }
+
+        function getWorkoutPlan(weight, height, gender) {
+            const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+            const workoutPlan = daysOfWeek.map(day => {
+                const exercise = getRandomExercise(getExerciseList(gender));
+                const duration = getRandomDuration();
+                return { day, workout: `${exercise} for ${duration} minutes` };
+            });
+
+            return workoutPlan;
+        }
+
+        function getRandomDuration() {
+            return Math.floor(Math.random() * (60 - 20 + 1)) + 20; // Random duration between 20 and 60 minutes
+        }
+
+        function getExerciseList(gender) {
+            // Define exercise lists based on gender
+            const maleExercises = ["Weightlifting", "Running", "Cycling", "Swimming"];
+            const femaleExercises = ["Yoga", "Pilates", "Dance", "Circuit Training"];
+
+            return gender === "male" ? maleExercises : femaleExercises;
+        }
+
+        function displayWorkoutPlan(plan) {
+            const workoutPlanElement = document.getElementById("workout-plan");
+            workoutPlanElement.innerHTML = "<h2>Week-wise Workout Plan:</h2>";
+
+            if (plan.length === 0) {
+                workoutPlanElement.innerHTML += "<p>No workout plan available.</p>";
+            } else {
+                const ul = document.createElement("ul");
+                plan.forEach(day => {
+                    const li = document.createElement("li");
+                    li.textContent = `${day.day}: ${day.workout}`;
+                    ul.appendChild(li);
+                });
+                workoutPlanElement.appendChild(ul);
+            }
+        }
+    </script>
+</body>
+
+</html>

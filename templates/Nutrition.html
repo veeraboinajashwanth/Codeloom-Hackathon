@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrition Quiz Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Epilogue", sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+
+        .quiz-container {
+            background-color:#A4CE95 ;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 800px;
+            
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .question {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .options {
+            list-style: none;
+            padding: 0;
+        }
+
+        .option {
+            margin: 8px 0;
+        }
+
+        button {
+            padding: 10px;
+            width: 100%;
+            background-color: #555;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="quiz-container">
+        <h1>Nutrition Quiz</h1>
+        <div class="question" id="question">Loading question...</div>
+        <ul class="options" id="options">
+            <!-- Options will be dynamically added here -->
+        </ul>
+        <button onclick="checkAnswer()">Next Question</button>
+    </div>
+
+    <script>
+        const quizData = [
+    // Existing questions
+    {
+        question: "Which nutrient is the primary source of energy for the body?",
+        options: ["A: Protein", "B: Carbohydrates", "C: Fat", "D: Vitamins"],
+        correctAnswer: "B: Carbohydrates"
+    },
+    {
+        question: "Which vitamin is essential for proper vision?",
+        options: ["A: Vitamin A", "B: Vitamin C", "C: Vitamin D", "D: Vitamin K"],
+        correctAnswer: "A: Vitamin A"
+    },
+    {
+        question: "What is the main function of protein in the body?",
+        options: ["A: Energy storage", "B: Muscle building", "C: Bone health", "D: Blood clotting"],
+        correctAnswer: "B: Muscle building"
+    },
+    // New questions
+    {
+        question: "Which mineral is critical for making red blood cells?",
+        options: ["A: Iron", "B: Calcium", "C: Potassium", "D: Zinc"],
+        correctAnswer: "A: Iron"
+    },
+    {
+        question: "What is the primary role of dietary fiber?",
+        options: ["A: Energy production", "B: Aid digestion", "C: Muscle building", "D: Bone strengthening"],
+        correctAnswer: "B: Aid digestion"
+    },
+    {
+        question: "Which nutrient helps with clotting of blood?",
+        options: ["A: Vitamin K", "B: Vitamin A", "C: Vitamin D", "D: Vitamin C"],
+        correctAnswer: "A: Vitamin K"
+    },
+    {
+        question: "What is the main function of carbohydrates in the body?",
+        options: ["A: Provide energy", "B: Build proteins", "C: Aid digestion", "D: Regulate blood pressure"],
+        correctAnswer: "A: Provide energy"
+    },
+    {
+        question: "Which vitamin is essential for the body to absorb calcium?",
+        options: ["A: Vitamin D", "B: Vitamin A", "C: Vitamin K", "D: Vitamin C"],
+        correctAnswer: "A: Vitamin D"
+    },
+    {
+        question: "Which mineral is important for healthy bones and teeth?",
+        options: ["A: Calcium", "B: Iron", "C: Potassium", "D: Zinc"],
+        correctAnswer: "A: Calcium"
+    },
+    {
+        question: "Which vitamin is important for the immune system?",
+        options: ["A: Vitamin C", "B: Vitamin A", "C: Vitamin D", "D: Vitamin K"],
+        correctAnswer: "A: Vitamin C"
+    },
+    {
+        question: "What is the main function of fat in the body?",
+        options: ["A: Provide energy", "B: Build proteins", "C: Aid digestion", "D: Regulate blood pressure"],
+        correctAnswer: "A: Provide energy"
+    }
+];
+
+
+        let currentQuestion = 0;
+
+        function loadQuestion() {
+            const questionElement = document.getElementById("question");
+            const optionsElement = document.getElementById("options");
+
+            if (currentQuestion < quizData.length) {
+                const currentQuiz = quizData[currentQuestion];
+                questionElement.textContent = currentQuiz.question;
+
+                optionsElement.innerHTML = "";
+                currentQuiz.options.forEach((option, index) => {
+                    const optionElement = document.createElement("li");
+                    optionElement.classList.add("option");
+                    optionElement.textContent = option;
+                    optionElement.onclick = () => selectAnswer(index);
+                    optionsElement.appendChild(optionElement);
+                });
+            } else {
+                questionElement.textContent = "Quiz completed!";
+                optionsElement.innerHTML = "";
+            }
+        }
+
+        function selectAnswer(selectedIndex) {
+            const selectedOption = quizData[currentQuestion].options[selectedIndex];
+            if (selectedOption === quizData[currentQuestion].correctAnswer) {
+                alert("Correct!");
+            } else {
+                alert(`Incorrect! The correct answer is: ${quizData[currentQuestion].correctAnswer}`);
+            }
+
+            currentQuestion++;
+            loadQuestion();
+        }
+
+        function checkAnswer() {
+            const selectedOption = document.querySelector(".option.selected");
+            if (selectedOption) {
+                const selectedIndex = Array.from(selectedOption.parentNode.children).indexOf(selectedOption);
+                selectAnswer(selectedIndex);
+            } else {
+                alert("Please select an option.");
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", loadQuestion);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meal Planner</title>
+    <style>
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Epilogue", sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+
+        .meal-planner {
+            background-color: #A4CE95;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px;
+            width: 100%;
+            background-color: #555;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: black;
+        }
+
+        p {
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="meal-planner">
+        <h1>Meal Planner</h1>
+        <label for="diet">Select Dietary Preference:</label>
+        <select id="diet">
+            <option value="vegetarian">Vegetarian</option>
+            <option value="keto">Keto</option>
+            <option value="low-carb">Low Carb</option>
+        </select>
+
+        <label for="gender">Select Gender:</label>
+        <select id="gender">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select>
+
+        <label for="weight">Weight (in kg):</label>
+        <input type="number" id="weight" placeholder="Enter weight">
+
+        <label for="height">Height (in cm):</label>
+        <input type="number" id="height" placeholder="Enter height">
+
+        <div class="button-container">
+            <button onclick="generateMeal()">Generate Meals</button>
+        </div>
+
+        <h3>Meal Suggestions</h3>
+        <p><strong>Breakfast:</strong> <span id="breakfastResult"></span></p>
+        <p><strong>Lunch:</strong> <span id="lunchResult"></span></p>
+        <p><strong>Dinner:</strong> <span id="dinnerResult"></span></p>
+    </div>
+    <script>
+        const mealOptions = {
+            vegetarian: {
+                male: {
+                    breakfast: ["Oatmeal with Fruits", "Smoothie Bowl", "Avocado Toast"],
+                    lunch: ["Chickpea Salad", "Vegetable Wrap", "Quinoa Bowl"],
+                    dinner: ["Stir-Fried Tofu", "Grilled Vegetables", "Zucchini Noodles"]
+                },
+                female: {
+                    breakfast: ["Greek Yogurt Parfait", "Fruit Salad", "sprouts"],
+                    lunch: ["Mediterranean Salad", "Stuffed Bell Peppers", "Spinach and Feta Wrap"],
+                    dinner: ["Grilled Portobello Mushrooms", "Vegetarian Stir-Fry", "Cauliflower Steaks"]
+                }
+            },
+            keto: {
+                male: {
+                    breakfast: ["Keto Avocado Egg Bowl", "Bacon and Eggs", "Keto Chia Pudding"],
+                    lunch: ["Caesar Salad with Chicken", "Keto Zucchini Lasagna", "Salmon Avocado Salad"],
+                    dinner: ["Grilled Steak with Broccoli", "Keto Chicken Alfredo", "Spinach and Feta Stuffed Chicken"]
+                },
+                female: {
+                    breakfast: ["Keto Smoothie", "Cheese and Mushroom Omelette", "Keto Pancakes"],
+                    lunch: ["Keto Caesar Salad", "Zoodle Alfredo", "Cauliflower Rice Stir-Fry"],
+                    dinner: ["Baked Salmon with Asparagus", "Keto Eggplant Lasagna", "Avocado and Shrimp Salad"]
+                }
+            },
+            "low-carb": {
+                male: {
+                    breakfast: ["Chia Seed Pudding", "Low-Carb Breakfast Burrito", "Berries and Cream"],
+                    lunch: ["Cobb Salad", "Turkey Lettuce Wraps", "Cauliflower Fried Rice"],
+                    dinner: ["Baked Cod with Asparagus", "Shrimp and Avocado Salad", "Chicken and Broccoli Stir-Fry"]
+                },
+                female: {
+                    breakfast: ["Avocado and Bacon Roll-Ups", "Low-Carb Greek Salad", "Cheese and Spinach Muffins"],
+                    lunch: ["Caprese Salad", "Turkey Avocado Lettuce Wraps", "Zucchini Noodles with Pesto"],
+                    dinner: ["Grilled Chicken with Brussels Sprouts", "Eggplant Parmesan", "Cauliflower Pizza"]
+                }
+            }
+        };
+
+        function generateMeal() {
+            const selectedDiet = document.getElementById("diet").value;
+            const gender = document.getElementById("gender").value;
+            const weight = document.getElementById("weight").value;
+            const height = document.getElementById("height").value;
+
+            if (selectedDiet && gender && weight && height) {
+                const breakfastResultElement = document.getElementById("breakfastResult");
+                const lunchResultElement = document.getElementById("lunchResult");
+                const dinnerResultElement = document.getElementById("dinnerResult");
+
+                const randomBreakfastIndex = Math.floor(Math.random() * mealOptions[selectedDiet][gender].breakfast.length);
+                const randomLunchIndex = Math.floor(Math.random() * mealOptions[selectedDiet][gender].lunch.length);
+                const randomDinnerIndex = Math.floor(Math.random() * mealOptions[selectedDiet][gender].dinner.length);
+
+                const breakfastSuggestion = mealOptions[selectedDiet][gender].breakfast[randomBreakfastIndex];
+                const lunchSuggestion = mealOptions[selectedDiet][gender].lunch[randomLunchIndex];
+                const dinnerSuggestion = mealOptions[selectedDiet][gender].dinner[randomDinnerIndex];
+
+                breakfastResultElement.textContent = breakfastSuggestion;
+                lunchResultElement.textContent = lunchSuggestion;
+                dinnerResultElement.textContent = dinnerSuggestion;
+            } else {
+                alert("Please fill in all the details.");
+            }
+        }
+    </script>
+</body>
+
+</html>

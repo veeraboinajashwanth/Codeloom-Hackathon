@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Health Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Epilogue", sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+
+        .mental-health-container {
+            background-color: #A4CE95;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        .question {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .options {
+            list-style: none;
+            padding: 0;
+        }
+
+        .option {
+            margin: 8px 0;
+        }
+
+        button {
+            padding: 10px;
+            width: 100%;
+            background-color: #555;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mental-health-container">
+        <h1>Mental Health Test</h1>
+        <p>
+            Welcome to the Mental Health Test. This test is designed to help you assess your mental well-being.
+            Please read each question carefully and select the option that best represents your feelings.
+            Use the following scale:
+        </p>
+        <p>0: Not at all</p>
+        <p>1: Several days</p>
+        <p>2: More than half the days</p>
+        <p>3: Nearly every day</p>
+
+        <div class="question" id="question">Loading question...</div>
+        <ul class="options" id="options">
+            <!-- Options will be dynamically added here -->
+        </ul>
+        <button onclick="submitAnswer()">Submit</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const questions = [
+            "Little interest or pleasure in doing things?",
+            "Feeling down, depressed, or hopeless?",
+            "Trouble falling or staying asleep, or sleeping too much?",
+            "Feeling tired or having little energy?",
+            "Poor appetite or overeating?",
+            "Feeling bad about yourself, or that you are a failure or have let yourself or your family down?",
+            "Trouble concentrating on things, such as reading the newspaper or watching television?",
+            "Moving or speaking so slowly that other people could have noticed? Or the opposite - being so fidgety or restless that you have been moving around a lot more than usual?",
+            "Thoughts that you would be better off dead, or of hurting yourself in some way?"
+        ];
+
+        let currentQuestion = 0;
+        let userAnswers = [];
+
+        function loadQuestion() {
+            const questionElement = document.getElementById("question");
+            const optionsElement = document.getElementById("options");
+
+            if (currentQuestion < questions.length) {
+                const currentQuiz = questions[currentQuestion];
+                questionElement.textContent = currentQuiz;
+
+                optionsElement.innerHTML = "";
+                for (let i = 0; i <= 3; i++) {
+                    const optionElement = document.createElement("li");
+                    optionElement.classList.add("option");
+                    optionElement.textContent = i;
+                    optionElement.onclick = () => selectAnswer(i);
+                    optionsElement.appendChild(optionElement);
+                }
+            } else {
+                questionElement.textContent = "Test completed!";
+                optionsElement.innerHTML = "";
+            }
+        }
+
+        function selectAnswer(selectedIndex) {
+            userAnswers[currentQuestion] = selectedIndex;
+            currentQuestion++;
+            loadQuestion();
+        }
+
+        function submitAnswer() {
+            if (userAnswers.length === questions.length) {
+                const resultElement = document.getElementById("result");
+                const totalScore = userAnswers.reduce((acc, answer) => acc + answer, 0);
+                resultElement.textContent = `Your total score is ${totalScore}.`;
+
+                // Assess risk rate and provide a brief description
+                let riskRate = "";
+                let description = "";
+
+                if (totalScore <= 5) {
+                    riskRate = "Low";
+                    description = "Your mental health seems to be in good shape. Keep up the positive mindset!";
+                } else if (totalScore <= 10) {
+                    riskRate = "Moderate";
+                    description = "You might be experiencing some challenges. Consider talking to a mental health professional.";
+                } else if (totalScore <= 15) {
+                    riskRate = "High";
+                    description = "It's important to prioritize your mental well-being. Reach out to a mental health professional for support.";
+                } else {
+                    riskRate = "Very High";
+                    description = "Your responses indicate a high level of distress. Urgently seek help from a mental health professional or contact a helpline.";
+                }
+
+                resultElement.innerHTML += `<br>Risk Rate: ${riskRate}<br>Description: ${description}`;
+
+            } else {
+                alert("Please answer all questions before submitting.");
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", loadQuestion);
+    </script>
+</body>
+
+</html>

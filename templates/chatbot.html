@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>My Bot</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700,300">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.1.2/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400&family=Finger+Paint&display=swap">
+    <style>
+        a {
+            color: inherit;
+            text-decoration: underline;
+            font-size: inherit;
+        }
+
+        a:hover {
+            opacity: 0.7;
+        }
+        * {
+  margin: 0;
+  padding: 0;
+  font-size: 1.3vw;
+  font-family: "Epilogue", sans-serif;
+}
+
+html {
+  --scrollbarBG: #fff;
+  --thumbBG: rgb(63, 63, 70);
+}
+
+.botbody {
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.card {
+  height: auto;
+  width: fit-content;
+  min-width: 35rem;
+  background-color: black;
+  box-shadow: 0vw 0vw 100vw 0vw #555;
+}
+
+.card #botheader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #000;
+  margin: 0 0.8rem;
+}
+
+.card #botheader h1 {
+  color: #cff109;
+  font-size: 1.5rem;
+  /* font-family: "Finger Paint", cursive; */
+  padding: 1rem 1rem 1rem 0;
+}
+
+.card #message-section::-webkit-scrollbar {
+  width: 10px;
+}
+
+.card #message-section {
+  height: 30rem;
+  max-height: 450px;
+  overflow-y: auto;
+  scrollbar-color: black var(--thumbBG);
+}
+
+.card #message-section::-webkit-scrollbar {
+  width: 3px;
+}
+
+.card #message-section::-webkit-scrollbar-thumb {
+  background-color: rgb(255, 255, 255);
+}
+
+.card #message-section::-webkit-scrollbar-track {
+  background-color: rgb(0, 0, 0);
+}
+
+.card #message-section #bot,
+.card #message-section #user {
+  position: relative;
+  bottom: 0;
+  min-height: 1.2rem;
+  background-color: rgb(63, 63, 70);
+  color: #fff;
+  border-radius: 0 1rem 1rem 1.2rem;
+  margin: 0.8rem 0.4rem 0rem;
+  max-width: 34vw;
+}
+
+.card #message-section #bot {
+  float: left;
+  padding-left: 1.2rem;
+}
+
+.card #message-section #user {
+  border-radius: 1rem 0rem 1rem 1.2rem;
+  background-color: #fff;
+  float: right;
+  padding-right: 1.2rem;
+}
+
+.card #message-section #user #user-response {
+  color: #000000;
+}
+
+.card #message-section .message {
+  color: #000;
+  clear: both;
+  line-height: 1.4rem;
+  font-size: 1rem;
+  padding: 8px;
+  position: relative;
+  margin: 8px 0;
+  max-width: 85%;
+  word-wrap: break-word;
+  z-index: 2;
+}
+
+.card #input-section {
+  z-index: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow: hidden;
+  padding: 0.5rem;
+  padding-bottom: 1rem;
+}
+
+.card #input-section input {
+  display: flex;
+  align-items: center;
+  color: #000;
+  min-width: 0.5rem;
+  outline: none;
+  height: 2rem;
+  max-height: 2rem;
+  max-width: 600px;
+  flex: 1;
+  background-color: rgb(63, 63, 70);
+  border: none;
+  border-radius: 1rem;
+  color: white;
+  margin-left: 0.4rem;
+}
+
+.card .send {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  flex: 0 0 auto;
+  margin-left: 1em;
+  margin-right: 0;
+  padding: 0;
+  position: relative;
+  outline: none;
+}
+
+.circle:hover,
+.circle:active {
+  opacity: 0.7;
+}
+
+.card .send .circle {
+  position: relative;
+  width: 2.8rem;
+  height: 2.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card .send .circle i {
+  font-size: 1.5rem;
+  margin-left: -0.2rem;
+}
+
+.circle {
+  background-color: rgb(64, 163, 45);
+  border-radius: 10px;
+  color: #fff;
+}
+
+input:focus, .circle:focus, .send:focus , button:focus {
+  border: 1px solid white !important;
+  border-radius: 10px;
+  outline: none; 
+}
+
+.quickbtns{
+  margin-left: 1.1rem;
+}
+
+.quickmessage {
+  background-color: rgb(64, 163, 45);
+  color: #ffffff;
+  font-size: 1rem;
+  border-radius: 20px;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin-bottom: 0px;
+  margin-top: 3px;
+}
+
+.typing-animation {
+  animation: typing 2s infinite;
+}
+/* typing animation */
+@keyframes typing {
+  0% { opacity: 0.5; }
+  50% { opacity: 1; }
+  100% { opacity: 0.5; }
+}
+
+@media (max-width: 767px) {
+  .card {
+    min-width: 80vw;
+    min-height: 60vh;
+    font-size: 1.2vw;
+  }
+
+  .quickmessage{
+    font-size: 1rem;
+  }
+
+  .card #botheader {
+    font-size: 1.8rem;
+  }
+
+  .card #message-section {
+    height: 50vh;
+  }
+
+  * {
+    font-size: 9px;
+  }
+
+  input {
+    padding: 0.5rem;
+    padding-left: 1.2rem;
+  }
+
+  #bot-response,
+  #user-response,
+  #bot-input {
+    font-size: 11px;
+  }
+
+  .card #message-section::-webkit-scrollbar {
+    width: 2px;
+  }
+
+  .card #message-section #bot,
+  .card #message-section #user {
+    max-width: 60vw;
+  }
+  .quickbtns {
+    max-width: 75vw;
+  }
+}
+
+@media (min-width: 768px) {
+  h1 {
+    font-size: 1rem;
+  }
+
+  .quickbtns{
+    max-width: 600px;
+  }
+
+  #bot-response,
+  #user-response,
+  #bot-input {
+    font-size: 16px;
+  }
+
+  input {
+    padding: 0.2rem;
+    padding-left: 1.2rem;
+  }
+
+  .card .send .circle {
+    width: 2.6rem;
+    height: 2.6rem;
+  }
+
+  .botbody {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+}
+    </style>
+</head>
+
+<body>
+    <div class="botbody">
+        <div class="botcontent">
+            <div class="card">
+                <div id="botheader">
+                    <h1>Concern+ Robo!</h1>
+                    <button class="send" onclick="reset()">
+                        <div class="circle refresh"><i class="zmdi zmdi-refresh-sync"
+                                style="font-size: 1.5rem; margin-left: 0.2rem;"></i></div>
+                    </button>
+                </div>
+                <hr>
+                <div id="message-section">
+                    <div class="message" id="bot"><span id="bot-response">Hello There!!..</span></div>
+                </div>
+                <div class="quickbtns">
+                    <button tabindex="1" class="quickmessage" data-message="Report a Bug 🐞"
+                        onclick="send(this.getAttribute('data-message'))">Report a Bug 🐞</button>
+                </div>
+                <div id="input-section">
+                    <input id="user-input" type="text" placeholder="Type a message..." autocomplete="on"
+                        autofocus="autofocus" tabindex="3" />
+                    <button type="submit" class="send sendmessage" onclick="sendMessage()" tabindex="3">
+                        <div class="circle"><i class="zmdi zmdi-mail-send"
+                                style="font-size: 1.5rem; margin-left: 0.2rem;"></i></div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function reset() {
+            document.getElementById("message-section").innerHTML = '<div class="message" id="bot"><span id="bot-response">Hello There!!..</span></div>';
+        }
+
+        function send(message) {
+            var userInput = document.getElementById("user-input");
+            userInput.value = message;
+            var sendButton = document.querySelector('.send[type="submit"]');
+            sendButton.click();
+        }
+
+
+        const userMessage = [
+  /* 0 */["hi", "hey", "hello", "hlo", "hi there", "hey there"],
+  /* 1 */["I'm not feeling well", "I feel sick", "I think I'm ill"],
+  /* 2 */["I have a headache", "My head hurts", "I'm having migraines"],
+  /* 3 */["I have a fever", "I'm feeling hot", "I think I have a temperature"],
+  /* 4 */["I have a cough", "I can't stop coughing", "My throat is sore from coughing"],
+  /* 5 */["I feel nauseous", "I think I'm going to vomit", "I've been vomiting"],
+  /* 6 */["I have a rash", "There are red spots on my skin", "My skin is itchy"],
+  /* 7 */["I'm feeling tired", "I have no energy", "I'm feeling weak"],
+  /* 8 */["I can't sleep", "I have insomnia", "I'm having trouble sleeping"],
+  /* 9 */["I'm feeling anxious", "I'm feeling stressed", "I can't stop worrying"],
+  /* 10 */["I'm feeling depressed", "I feel sad all the time", "I've lost interest in things I used to enjoy"],
+];
+
+const botReply = [
+  /* 0 */["Hello! How can I assist you today?"],
+  /* 1 */["I'm sorry to hear that. Can you tell me more about your symptoms?"],
+  /* 2 */["Have you taken any medication for your headache? Rest and hydration can also help."],
+  /* 3 */["A fever could be a sign of an infection. Have you noticed any other symptoms?"],
+  /* 4 */["A persistent cough can be a sign of a respiratory condition. It might be a good idea to consult with a healthcare professional."],
+  /* 5 */["Nausea and vomiting can be caused by many conditions. Please ensure you stay hydrated and consider seeking medical attention."],
+  /* 6 */["Skin rashes can be caused by various conditions, some of which require medical treatment. Please consult with a healthcare professional."],
+  /* 7 */["Fatigue can be a symptom of many conditions. If rest doesn't help, please consult with a healthcare professional."],
+  /* 8 */["Insomnia can be very challenging. Establishing a regular sleep schedule and creating a comfortable sleep environment may help."],
+  /* 9 */["Anxiety can be very challenging. Deep breathing exercises and mindfulness can help manage your symptoms. Consider reaching out to a mental health professional for further assistance."],
+  /* 10 */["I'm really sorry that you're feeling this way, but I'm unable to provide the help that you need. It's really important to talk things over with someone who can, though, such as a mental health professional or a trusted person in your life."],
+];
+
+// Ensure the number of responses in botReply matches the number of message groups in userMessage
+if (botReply.length !== userMessage.length) {
+  console.log("The number of message groups in botReply must match the number of message groups in userMessage.");
+  console.log(userMessage.length)
+  console.log(botReply.length);
+}
+
+const alternative = [
+  "Can you ask something else. ❓",
+  "Hey, I'm listening... 👂",
+  "I didn't quite catch that. Could you please rephrase your question? 🤔",
+  "I'm not sure I understand. Can you provide more context or ask a different question? 🧐",
+  "Hmm, that's a bit confusing. Could you try asking in a different way? 🤨",
+  "Could you try asking in a different way? 🤨",
+  "I'm here to help, but I need a clearer question to provide a meaningful answer. 🤷‍♂️",
+  "It seems like we're on different wavelengths. Please try asking something else. 📡",
+  "I apologize, but I couldn't grasp the meaning of your input. Please rephrase your question. 🙁",
+  "You can contact :<br> Phone: <a href='tel:7979011828'>7979011828 📱</a><br> WhatsApp: <a href='https://wa.me/7979011828'>7979011828 💬"
+];
+let lastUserDiv;
+
+function sendMessage() {
+  const inputField = document.getElementById("user-input");
+  const input = inputField.value.trim();
+  if (input) {
+    output(input);
+    inputField.value = "";
+  }
+}
+
+//Calculation 
+function findResponse(input) {
+
+  //checks direct messages
+  let text = cleanInput(input);
+  for (const messageGroup of userMessage) {
+    const matchingMessage = messageGroup.find(message => text.includes(message.toLowerCase()));
+    if (matchingMessage) {
+      return getRandomResponseFromCategory(userMessage.indexOf(messageGroup));
+    }
+  }
+  const directMatch = findDirectMatch(text);
+  if (directMatch) {
+    return directMatch;
+  }
+
+  //check similarity
+  const SIMILARITY_THRESHOLD = 0.6;
+  for (let i = 0; i < userMessage.length; i++) {
+    const messageGroup = userMessage[i];
+    for (const message of messageGroup) {
+      const similarityScore = calculateSimilarity(text, message);
+      if (similarityScore >= SIMILARITY_THRESHOLD) {
+        return getRandomResponseFromCategory(i);
+      }
+    }
+  }
+
+  //check each word
+  const words = text.split(' ');
+  for (const word of words) {
+    if (isCommonWord(word)) {
+      continue;
+    }
+    const categoryIndex = findCategoryIndex(word);
+    if (categoryIndex !== -1) {
+      return getRandomResponseFromCategory(categoryIndex);
+    }
+  }
+
+  return getRandomAlternativeResponse();
+}
+
+function calculateSimilarity(str1, str2) {
+  const len1 = str1.length;
+  const len2 = str2.length;
+  const short = len1 < len2 ? len1 : len2;
+  const long = len1 > len2 ? len1 : len2;
+  let matchCount = 0;
+
+  for (let i = 0; i < short; i++) {
+    if (str1[i] === str2[i]) {
+      matchCount++;
+    }
+  }
+  const similarity = matchCount / long;
+  return similarity;
+}
+
+function cleanInput(input) {
+  return input
+    .toLowerCase()
+    .replace(/[^\w\s'"]/gi, "")
+    .replace(/[\W_]/g, " ")
+    .replace(/ a /g, " ")
+    .replace(/i feel /g, "")
+    .replace(/whats/g, "what is")
+    .replace(/please /g, "")
+    .replace(/ please/g, "")
+    .trim();
+}
+
+function findDirectMatch(text) {
+  for (const messageGroup of userMessage) {
+    const matchingMessage = messageGroup.find(message => text.includes(message.toLowerCase()));
+    if (matchingMessage) {
+      return getRandomResponseFromCategory(userMessage.indexOf(messageGroup));
+    }
+  }
+  return null;
+}
+
+function isCommonWord(word) {
+  const commonWords = [
+    'why', 'who', 'how', 'what', 'please', 'a', 'an', 'the', 'is', 'are', 'am', 'I',
+    'you', 'he', 'she', 'we', 'they', 'it', 'and', 'but', 'or', 'not', 'in', 'on',
+    'your', 'my', 'their', 'his', 'her', 'its', 'our', 'with', 'without', 'at', 'by',
+  ];
+  return commonWords.includes(word.toLowerCase());
+}
+
+function findCategoryIndex(word) {
+  return botReply.findIndex(category => category.includes(word));
+}
+
+function getRandomResponseFromCategory(categoryIndex) {
+  const responses = botReply[categoryIndex];
+  return responses[Math.floor(Math.random() * responses.length)];
+}
+
+function getRandomAlternativeResponse() {
+  return alternative[Math.floor(Math.random() * alternative.length)];
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const inputField = document.getElementById("user-input");
+  inputField.addEventListener("keydown", function (e) {
+    if (e.code === "Enter") {
+      const input = inputField.value.trim();
+      if (input) {
+        output(input);
+        inputField.value = "";
+      }
+    }
+  });
+});
+
+const usnexp = /\b4AI\d{2}AI\d{3}\b/i;
+
+function output(input) {
+  if (input.toLowerCase().includes("university") || usnexp.test(input.toLowerCase()) || input.toLowerCase().includes("usn")) {
+    userMessageSend(input);
+    const match = usnexp.test(input);
+    if (match) {
+      const userUSN = input.match(usnexp)[0];
+      readStudentDatafromxl(userUSN);
+    } else {
+      sendBotMessage("Enter USN 📝");
+      // Call the userMessageWait function
+      userMessageWait().then((userResponse) => {
+        userResponse = cleanInput(userResponse).replace(/\s/g, "");
+        const match = usnexp.test(userResponse);
+        if (match) {
+          readStudentDatafromxl(userResponse);
+        }
+      });
+    }
+  } else {
+    // If the input does not contain the USN pattern, proceed with generating a response
+    let product = findResponse(input);
+    addChat(input, product);
+  }
+}
+
+
+
+const inputField = document.getElementById("user-input");
+const quickMessageButtons = document.querySelectorAll(".quickmessage");
+const mainDiv = document.getElementById("message-section");
+const botDiv = document.createElement("div");
+
+function sendBotMessage(message, typingText = "Typing...") {
+  botDiv.id = "bot";
+  botDiv.classList.add("message");
+  botDiv.innerHTML = `<span id="bot-response" class="typing-animation">${typingText}</span>`;
+  mainDiv.appendChild(botDiv);
+  var scroll = document.getElementById("message-section");
+  scroll.scrollTop = scroll.scrollHeight;
+  inputField.disabled = true;
+  quickMessageButtons.forEach(button => {
+    button.disabled = true;
+  });
+
+  setTimeout(() => {
+    const botResponse = botDiv.querySelector("#bot-response");
+    botResponse.classList.remove("typing-animation");
+    botDiv.innerHTML = `<span id="bot-response">${message}</span>`;
+    scroll.scrollTop = scroll.scrollHeight;
+    inputField.disabled = false;
+    quickMessageButtons.forEach(button => {
+      button.disabled = false;
+    });
+
+    inputField.focus();
+  }, 2000);
+}
+
+function userMessageSend(input) {
+  // Create a new user message div
+  const newUserDiv = document.createElement("div");
+  newUserDiv.id = "user";
+  newUserDiv.classList.add("message", "typing-animation");
+  newUserDiv.style.animationDuration = "1s";
+  newUserDiv.innerHTML = `<span id="user-response">${input}</span>`;
+  mainDiv.appendChild(newUserDiv);
+
+  var scroll = document.getElementById("message-section");
+  scroll.scrollTop = scroll.scrollHeight;
+
+  // Removed "typing-animation" class after 500ms
+  setTimeout(() => {
+    newUserDiv.classList.remove("typing-animation");
+  }, 500);
+}
+
+function userMessageWait() {
+  return new Promise((resolve) => {
+    const inputField = document.getElementById("user-input");
+    let userResponse = "";
+
+    function handleUserResponse(e) {
+      if (e.code === "Enter" || e.target.classList.contains("sendmessage")) {
+        const trimmedResponse = userResponse.trim();
+        resolve(trimmedResponse);
+      } else {
+        userResponse = inputField.value;
+      }
+    }
+
+    function handleInputBlur() {
+      resolve(userResponse.trim());
+    }
+
+    inputField.addEventListener("keydown", handleUserResponse);
+    inputField.addEventListener("input", handleUserResponse);
+    inputField.addEventListener("blur", handleInputBlur);
+  });
+}
+
+
+function addChat(input, product) {
+  // Create a new user message div
+  const newUserDiv = document.createElement("div");
+  newUserDiv.id = "user";
+  newUserDiv.classList.add("message", "typing-animation");
+  newUserDiv.style.animationDuration = "0.5s";
+  newUserDiv.innerHTML = `<span id="user-response">${input}</span>`;
+  mainDiv.appendChild(newUserDiv);
+
+  const botDiv = document.createElement("div");
+  botDiv.id = "bot";
+  botDiv.classList.add("message", "typing-animation");
+  botDiv.style.animationDuration = "2s";
+  botDiv.innerHTML = `<span id="bot-response">Typing...</span>`;
+  mainDiv.appendChild(botDiv);
+
+  var scroll = document.getElementById("message-section");
+  scroll.scrollTop = scroll.scrollHeight;
+  inputField.disabled = true;
+  quickMessageButtons.forEach(button => {
+    button.disabled = true;
+  });
+
+  newUserDiv.classList.remove("typing-animation");
+  setTimeout(() => {
+    botDiv.classList.remove("typing-animation");
+    botDiv.innerHTML = `<span id="bot-response">${product}</span>`;
+    scroll.scrollTop = scroll.scrollHeight;
+    inputField.disabled = false;
+    quickMessageButtons.forEach(button => {
+      button.disabled = false;
+    });
+    inputField.focus();
+  }, 2000);
+}
+
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+    
+</body>
+
+</html>
